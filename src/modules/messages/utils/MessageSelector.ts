@@ -1,0 +1,5 @@
+class MessageSelect {
+    constructor(parameters) {
+        
+    }
+}

@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Stores {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  phone       String
+  email       String      @unique
+  status      String
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at") @db.DateTime()
+  createdUser String      @map("created_user") //a que esse campo se refere?
+  updatedUser String      @map("updated_user") //a que esse campo se refere?
+  user        Users[]
+  chatLog     ChatLogs[]
+  product     Products[]
+  contacts    Contacts[]
+  templates   Templates[]
+
+  @@map("stores")
+}
+
+model Users {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  email       String   @unique
+  password    String
+  status      String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.DateTime()
+  createdUser String   @map("created_user") //a que esse campo se refere?
+  updatedUser String   @map("updated_user") //a que esse campo se refere?
+  storeId     Int      @map("store_id")
+  store       Stores   @relation(fields: [storeId], references: [id])
+
+  @@map("users")
+}
+
+model ChatLogs {
+  id              Int      @id @default(autoincrement())
+  senderNumber    String   @map("sender_number")
+  recipientNumber String   @map("recipient_number")
+  message         String   @db.LongText
+  messageType     String   @map("message_type") //request ou response
+  templateId      Int      @map("template_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.DateTime()
+  storeId         Int      @map("store_id")
+  store           Stores   @relation(fields: [storeId], references: [id])
+  contactId       Int      @map("contact_id")
+  contact         Contacts @relation(fields: [contactId], references: [id])
+
+  @@map("chat_logs")
+}
+
+model Products {
+  id             Int               @id @default(autoincrement())
+  url            String            @unique
+  name           String
+  number         String
+  complement     String
+  neighborhood   String
+  city           String
+  state          String
+  country        String
+  value          Int
+  productType    String            @map("product_type") //apartamento, casa, terreno, chácara, comercial
+  storeId        Int               @map("store_id")
+  store          Stores            @relation(fields: [storeId], references: [id])
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at") @db.DateTime()
+  createdUser    String            @map("created_user") //a que esse campo se refere?
+  updatedUser    String            @map("updated_user") //a que esse campo se refere?
+  productItem    ProductItems[]
+  productKeyword ProductKeywords[]
+
+  @@map("products")
+}
+
+model ProductItems {
+  id           Int      @id @default(autoincrement())
+  productId    Int      @map("product_id") //referencia da tabela Products?
+  product      Products @relation(fields: [productId], references: [id])
+  productName  String   @map("product_name") //referencia da tabela Products?
+  productValue Int      @map("product_value") //referencia da tabela Products?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.DateTime()
+  createdUser  String   @map("created_user") //a que esse campo se refere?
+  updatedUser  String   @map("updated_user") //a que esse campo se refere?
+
+  @@map("product_items")
+}
+
+model ProductKeywords {
+  id          Int      @id @default(autoincrement())
+  keyword     String
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.DateTime()
+  createdUser String   @map("created_user") //a que esse campo se refere?
+  updatedUser String   @map("updated_user") //a que esse campo se refere?
+  productId   Int      @map("product_id") //referencia da tabela Products?
+  product     Products @relation(fields: [productId], references: [id])
+
+  @@map("product_keywords")
+}
+
+model Contacts {
+  id          Int        @id @default(autoincrement())
+  name        String
+  phoneNumber String     @map("phone_number")
+  sessionId   String     @map("session_id")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at") @db.DateTime()
+  storeId     Int        @map("store_id")
+  store       Stores     @relation(fields: [storeId], references: [id])
+  ChatLogs    ChatLogs[]
+
+  @@map("contacts")
+}
+
+model Templates {
+  id          Int     @id @unique
+  message     String  @db.LongText
+  lastMessage Int     @map("last_message")
+  nextMessage Int?    @default(dbgenerated("null")) @map("next_message")
+  condition   String? @default(dbgenerated("null"))
+  storeId     Int     @map("store_id")
+  store       Stores  @relation(fields: [storeId], references: [id])
+
+  @@map("templates")
+}
+
+model TriggerWords {
+  id      Int    @id @default(autoincrement())
+  message String @db.LongText
+  type    String
+
+  @@map("trigger_words")
+}

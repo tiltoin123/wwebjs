@@ -1,0 +1,169 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "App Configuration API",
+        "description": "App Configuration API",
+        "contact": {
+            "name": "Support Ícaro",
+            "email": "support@icarotech.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.1.0"
+    },
+    "servers": [
+        {
+            "url": "https://tim-tais-dev.us-south.containers.appdomain.cloud/app-configuration/api",
+            "description": "Development Server Environment"
+        },
+        {
+            "url": "https://tim-tais-hml.us-south.containers.appdomain.cloud/app-configuration/api",
+            "description": "Homologation Server Environment"
+        }
+    ],
+    "paths": {
+        "/configuration": {
+            "description": "Actions applied to events by its number",
+            "get": {
+                "tags": [
+                    "APP CONFIGURATION"
+                ],
+                "summary": "Get App Configuration",
+                "description": "Retrieve an App Configuration",
+                "parameters": [
+                    
+                ],
+                "responses": {
+                    "200": {
+                        "description": "App Configuration",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "result": [
+                                        {
+                                            "id": 1,
+                                            "appVersion": "0.0.3",
+                                            "mode": "Developer",
+                                            "selfHealing": 1,
+                                            "urlForgotPassword": "https://stscorp.timbrasil.com.br/ADFS/portal/updatepassword",
+                                            "urlChangePassword": "https://passwordreset.microsoftonline.com",
+                                            "createdAt": "2022-11-30T21:33:36.768Z",
+                                            "updatedAt": "2022-11-30T21:33:36.768Z",
+                                            "idAppConfigurationAzure": 1,
+                                            "idAppConfigurationEtaDirect": 1,
+                                            "idAppConfigurationTais": 1,
+                                            "idAppConfigurationServiceNow": 1,
+                                            "appConfigurationEtaDirect": {
+                                              "id": 1,
+                                              "url": "https://tim-tais-dev.us-south.containers.appdomain.cloud/wfm/api/",
+                                              "route": "resources/{username}/routes/{date}",
+                                              "serviceRequest": "serviceRequests",
+                                              "token": "dGFpc0B0aW0xLnRlc3Q6OWUyZmQxMWE1ZjE0MzQ5MDAwMDI3Nzc3NzQzZGI3YjQzY2ZiNGNkNjdmNDI1Yzc4NWI4ZWNlNmM5M2Iy",
+                                              "userLoginUrl": "resources/{login}/info",
+                                              "activityById": "activities/{activityID}",
+                                              "activityByEvent": "activities/events/{eventNumber}",
+                                              "activityByTsk": "activities/tasks/{taskNumber}",
+                                              "activityByUsername": "resources/{username}/activities",
+                                              "createdAt": "2022-11-30T21:33:34.204Z",
+                                              "updatedAt": "2022-11-30T21:33:34.204Z"
+                                            },
+                                            "appConfigurationAzure": {
+                                              "id": 1,
+                                              "clientId": "414645e9-6557-4184-b6c4-1dde3e32be44",
+                                              "tenant": "57b8c96e-ac2f-4d78-a149-f1fc6817d3c4",
+                                              "redirectUri": "msauth://br.com.timbrasil.tais.superapp/ClWGMEY46KI89CKv9g7mmygsUMg=",
+                                              "scope": "openid profile User.Read Mail.Read",
+                                              "createdAt": "2022-11-30T21:33:35.502Z",
+                                              "updatedAt": "2022-11-30T21:33:35.502Z"
+                                            },
+                                            "appConfigurationTais": {
+                                              "id": 1,
+                                              "socketUrl": "https://tim-tais-dev.us-south.containers.appdomain.cloud/http-socket/api/",
+                                              "url": "https://tim-tais-dev.us-south.containers.appdomain.cloud/",
+                                              "notificationsToken": "notifications/api/token",
+                                              "socket": "/http-socket/socket.io",
+                                              "urlAuth": "https://tim-tais-dev.us-south.containers.appdomain.cloud/nd-red-portal",
+                                              "credentialsBasicAuth": "dGltOnRpbUAxMjM0",
+                                              "sessionMaxSessionTimeRedis": 432000,
+                                              "sessionElapsedTimeSession": "/api/user/sessionTime/",
+                                              "sessionSessionDate": "/api/getsessiondate",
+                                              "sessionRevokeSession": "nd-red-portal/api/user/revokeSession",
+                                              "authWeb": "nd-red-portal/api/authweb",
+                                              "createdAt": "2022-11-30T21:33:31.579Z",
+                                              "updatedAt": "2022-11-30T21:33:31.579Z"
+                                            },
+                                            "appConfigurationServiceNow": {
+                                              "id": 1,
+                                              "url": "https://tim-tais-dev.us-south.containers.appdomain.cloud/wfm/api/",
+                                              "credentialsBasicAuth": "resources/{username}/routes/{date}",
+                                              "endpointsEvent": "serviceRequests",
+                                              "endpointsTicket": "dGFpc0B0aW0xLnRlc3Q6OWUyZmQxMWE1ZjE0MzQ5MDAwMDI3Nzc3NzQzZGI3YjQzY2ZiNGNkNjdmNDI1Yzc4NWI4ZWNlNmM5M2Iy",
+                                              "createdAt": "2022-11-30T21:33:32.932Z",
+                                              "updatedAt": "2022-11-30T21:33:32.932Z"
+                                            },
+                                            "messages": []
+                                          }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "Request Error: <error>"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Configuration Not Founf Error",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "APP Configuration not found."
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "APP Configuration sent could no be process",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": true,
+                                    "message": "EVE number is not in pattern."
+                                }
+                            }
+                        }
+                    },
+                    "5xx": {
+                        "$ref": "#components/responses/InternalServerError"
+                    }
+                }
+            
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "InternalServerError": {
+                "description": "Internal Server Error",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "error": true,
+                            "message": "Internal Server Error"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
